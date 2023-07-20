@@ -10,6 +10,8 @@ export function App1() {
     setTodos(x);
   }
   var [todos, setTodos] = createSignal();
+
+  setContents();
   //   createResource(requestTodos, setContents);
   //   setContents().catch((err) => console.log(err));
   //   const todos = async () => (await fetch("http://127.0.0.1:3001/")).json();

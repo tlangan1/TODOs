@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+  </head>
+  <body>
+    <ul></ul>
+  </body>
+  <script>
+    // const todos = async () => (await fetch(`127.0.0.1:3001/`)).json();
+
+    async function setContents() {
+      const response = await fetch("/todos");
+      const rows = await response.json();
+      console.log(rows);
+      var ul = document.querySelector("ul");
+      rows.forEach((todo) => {
+        var li = document.createElement("li");
+        li.innerHTML = todo.todo_name;
+        ul.appendChild(li);
+      });
+    }
+
+    setContents();
+  </script>
+</html>

@@ -11,5 +11,17 @@
 
 ## Configuration
 
-1. The SolidJS server (actually I am not sure what the server actually is) is responding to all requests on port 3000.
-1. The Express server is responding to all requests on port 3001 and handles all data requests.
+1. The Express server is responding to all requests on port 3001 and should only be receiving data requests. To start this server run the following command:
+
+   ```
+   node server.js
+
+   or
+
+   node --inspect server.js if you wish to debug the server side
+   ```
+
+1. The SolidJS server (actually I am not sure what the server actually is) is responding to all requests on port 3000. To start the application run the following command:
+   ```
+   npm run dev
+   ```

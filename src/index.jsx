@@ -4,6 +4,8 @@ import { render } from "solid-js/web";
 import "./index.css";
 import { App } from "./App";
 
+import { GlobalStateProvider } from "./GlobalStateProvider";
+
 const root = document.getElementById("root");
 
 if (import.meta.env.DEV && !(root instanceof HTMLElement)) {
@@ -12,4 +14,11 @@ if (import.meta.env.DEV && !(root instanceof HTMLElement)) {
   );
 }
 
-render(() => <App />, root);
+render(
+  () => (
+    <GlobalStateProvider count={1}>
+      <App />
+    </GlobalStateProvider>
+  ),
+  root
+);

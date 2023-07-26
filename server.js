@@ -1,7 +1,7 @@
 // const express = require("express");
 import express from "express";
 // var express = require("express");
-import { getTodos } from "./db.js";
+import { addTodo, getTodos } from "./db.js";
 // var getTODOs = require("./db");
 import cors from "cors";
 
@@ -13,10 +13,12 @@ const __dirname = path.dirname(__filename);
 
 const app = express();
 
+app.use(express.json());
+
 app.get("/", (req, res) => {
   var s = getTodos(cb);
   function cb(data) {
-    console.log(data);
+    // console.log(data);
     res.json(data);
 
     // res.setHeader("Content-Type", "application/json");
@@ -28,7 +30,7 @@ app.get("/", (req, res) => {
 });
 
 app.get("*", (req, res) => {
-  console.log(req.url);
+  console.log("Server Get Request:", req.url);
 
   switch (req.url) {
     case "/test":
@@ -38,10 +40,24 @@ app.get("*", (req, res) => {
     case "/todos":
       var s = getTodos(cb);
       function cb(data) {
-        console.log(data);
+        // console.log(data);
         res.set("access-control-allow-origin", "http://127.0.0.1:3000");
         res.json(data);
       }
+      break;
+    default:
+      res.sendFile(__dirname + "/unknown.html");
+      break;
+  }
+});
+
+app.post("*", (req, res) => {
+  console.log("Server Post Request:", req.url);
+  switch (req.url) {
+    case "/Addtodo":
+      console.log(req.body);
+      addTodo();
+      //   res.sendFile(__dirname + "/test.html");
       break;
     default:
       res.sendFile(__dirname + "/unknown.html");

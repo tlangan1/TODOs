@@ -6,7 +6,7 @@ const fetchUser = async (id) =>
 export const App2 = () => {
   const [userId, setUserId] = createSignal();
   const [user] = createResource(userId, fetchUser);
-  console.log(`user: ${user}`);
+  //   console.log(`user: ${user}`);
 
   return (
     <>

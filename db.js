@@ -35,15 +35,31 @@ function fetchTodos() {
 
 export async function getTodos(callback) {
   var rows = await fetchTodos();
-
-  rows.forEach((element) => {
-    console.log(element.todo_name);
-  });
-
-  console.log("return", rows);
   callback(rows);
+}
 
-  //   return fetchTodos();
+export async function addTodo() {
+  return new Promise(fn);
+
+  function fn(resolve, reject) {
+    pool.getConnection(function (err, con) {
+      if (err) {
+        return reject(err);
+      } else {
+        con.query(
+          "insert into todos (TODO_id, TODO_name) values (5, 'fifth todo')",
+          function (err, rows) {
+            if (err) {
+              return reject(err);
+            } else {
+              con.release(); // releasing connection to pool
+              return resolve(rows);
+            }
+          }
+        );
+      }
+    }); // getConnection
+  }
 }
 
 // To test as a stand-alone node app

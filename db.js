@@ -1,6 +1,5 @@
-// I have written JavaScript code for fetching data from a MySQL database. I have used connection pooling and Promise API.
+// db.js: This code provides a thin wrapper around a mysql server
 
-// var mySql = require("mysql");
 import { createPool } from "mysql";
 
 var pool = createPool({
@@ -8,34 +7,29 @@ var pool = createPool({
   user: "tlangan",
   password: "-UnderAWhiteSky1",
   database: "todos", //schema
-  connectionLimit: 13, // at a time 13 connection be created in pool
+  // Remember, connections are lazily created
+  connectionLimit: 10,
 });
 // console.log(pool);
 
 function fetchTodos() {
-  return new Promise(fn);
+  return new Promise(func);
 
-  function fn(resolve, reject) {
-    pool.getConnection(function (err, con) {
-      if (err) {
-        return reject(err);
-      } else {
-        con.query("select * from todos", function (err, rows) {
-          if (err) {
-            return reject(err);
-          } else {
-            con.release(); // releasing connection to pool
-            return resolve(rows);
-          }
-        });
-      }
-    }); // getConnection
-  } // fn
-} // getDepartments
+  function func(resolve, reject) {
+    pool.query("select * from todos", function (error, rows) {
+      if (error) reject(error);
+      resolve(rows);
+    });
+  } // func
+} // fetchTodos
 
 export async function getTodos(callback) {
-  var rows = await fetchTodos();
-  callback(rows);
+  try {
+    var rows = await fetchTodos();
+    callback(rows);
+  } catch (err) {
+    console.log("Database error", err);
+  }
 }
 
 export async function addTodo() {

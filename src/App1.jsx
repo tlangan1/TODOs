@@ -10,7 +10,7 @@ export function App1() {
   async function fetchTodos() {
     const response = await fetch(dataServer + "/todos");
     function delay(increment, resp) {
-      return new Promise((resolve) =>
+      return new Promise((resolve, reject) =>
         setTimeout(() => {
           resolve(resp);
         }, increment)

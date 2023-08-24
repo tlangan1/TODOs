@@ -4,7 +4,6 @@
 import express from "express";
 import { addTodo, getTodos } from "./db.js";
 import cors from "cors";
-
 import path from "path";
 import { fileURLToPath } from "url";
 
@@ -16,33 +15,24 @@ const app = express();
 
 app.use(express.json());
 app.use(cors({ origin: "http://127.0.0.1:3000" }));
-// app.use(function (req, res, next) {
-//   res.set("access-control-allow-origin", "http://127.0.0.1:3000");
-//   next();
-// });
 
 app.get("*", (req, res) => {
   console.log("Server Get Request:", req.url);
 
   switch (req.url) {
-    case "/test":
-      //   console.log(__dirname + "/test.html");
-      res.sendFile(__dirname + "/test.html");
-      break;
     case "/todos":
       try {
-        var s = getTodos(cb);
+        processRequest();
       } catch (err) {
         console.log(err);
       }
-      function cb(data) {
-        // console.log(data);
-        // res.set("access-control-allow-origin", "http://127.0.0.1:3000");
-        res.json(data);
+      async function processRequest() {
+        res.json(await getTodos());
       }
       break;
     default:
-      res.sendFile(__dirname + "/unknown.html");
+      res.status(404).sendFile(__dirname + "/unknown.html");
+      //   res.sendFile(__dirname + "/unknown.html");
       break;
   }
 });

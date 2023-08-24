@@ -28,8 +28,7 @@
 
 ## TODOs
 
-1. Rewrite fetchTODOs in a `flatter` async/await way. The README located in node_modules/mysql is very helpful.
-1. Write code to handle database errors
-1. If an error occurs on a fetch change the "...loading" to "unable to process this request at this time."
+1. Write code to handle database errors.
+1. If an error occurs on a fetch change the "...loading" to "unable to process this request at this time." This could include the request for an invalid route. The fetcher.error works in App2.jsx but not in App1.jsx???
 1. Finish code to add a TODO. See the mysql README lines 808 through 813 for a useful `insert` technique.
-1. Try to create a declarative interface to writing data to the database so I do not keep rewriting the same plumbing
+1. Try to create a declarative interface to writing data to the database to avoid rewriting the same plumbing

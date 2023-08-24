@@ -3,24 +3,14 @@ import { useGlobalState } from "./GlobalStateProvider";
 
 export function App1() {
   var [requestTodos, setRequestTodos] = createSignal(false);
-  const [todos] = createResource(requestTodos, fetchTodos);
   const [count, { increment, decrement }, dataServer] = useGlobalState();
-  console.log(count(), dataServer);
 
-  async function fetchTodos() {
-    const response = await fetch(dataServer + "/todos");
-    function delay(increment, resp) {
-      return new Promise((resolve, reject) =>
-        setTimeout(() => {
-          resolve(resp);
-        }, increment)
-      );
-    }
-    var data = await delay(2000, response);
-    return await data.json();
-  }
+  console.log("Data Server", dataServer);
+
+  const fetchTodos = async () => (await fetch(dataServer + "/todos")).json();
+  const [todos] = createResource(requestTodos, fetchTodos);
+
   setRequestTodos(true);
-  //   console.log(`todos: ${todos}`);
 
   return (
     <div>
@@ -36,15 +26,20 @@ export function App1() {
           setRequestTodos((s) => !s);
           setRequestTodos((s) => !s);
           increment();
-          console.log(count());
+          console.log("Fetch #", count());
         }}
       >
         Request Todos
       </button>
-      <div>{todos.loading && "Loading..."}</div>
-      <ul>
-        <For each={todos()}>{(todo) => <li>{todo.todo_name}</li>}</For>
-      </ul>
+      <span>{todos.loading && "Loading..."}</span>
+      <span>{todos.error && "Error"}</span>
+      <div>
+        {todos.state == "ready" && (
+          <ul>
+            <For each={todos()}>{(todo) => <li>{todo.todo_name}</li>}</For>
+          </ul>
+        )}
+      </div>
     </div>
   );
 }

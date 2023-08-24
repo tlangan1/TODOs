@@ -10,25 +10,19 @@ var pool = createPool({
   // Remember, connections are lazily created
   connectionLimit: 10,
 });
-// console.log(pool);
 
-function fetchTodos() {
-  return new Promise(func);
+export function getTodos() {
+  try {
+    return new Promise(func);
+  } catch (err) {
+    console.log("Database error", err);
+  }
 
   function func(resolve, reject) {
     pool.query("select * from todos", function (error, rows) {
       if (error) reject(error);
       resolve(rows);
     });
-  } // func
-} // fetchTodos
-
-export async function getTodos(callback) {
-  try {
-    var rows = await fetchTodos();
-    callback(rows);
-  } catch (err) {
-    console.log("Database error", err);
   }
 }
 
@@ -55,8 +49,3 @@ export async function addTodo() {
     }); // getConnection
   }
 }
-
-// To test as a stand-alone node app
-// console.log(getTodos());
-// var rows = await getTodos();
-// console.log(rows);
